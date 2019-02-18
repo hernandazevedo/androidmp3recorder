@@ -10,17 +10,14 @@ To this library in your android projects you only need to specify the repository
 
  ```
  allprojects {
-    repositories {
-        configurations {
-            deployerJars
-        }
-
+    repositories { 
         google()
         jcenter()
-
+        //adds the library repository       
         maven {
-            url "https://packagecloud.io/hernandazevedo/androidmp3recorder/maven2"
+             url "https://packagecloud.io/hernandazevedo/androidmp3recorder/maven2"
         }
+       
     }
 }
 ```
