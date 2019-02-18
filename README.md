@@ -3,7 +3,7 @@ This project is an Android Library that acts as a Wrapper over Lame mp3 encoder 
 
 ## Getting Started
 To use the project see the project sample(module app) that demonstrates the use of the class MP3Recorder.
-To this library in your android projects you only need to specify the repository and implementation of the library in your gradle configuration as follows.
+To add this library in your android projects you just need to specify the repository and implementation of the library in your gradle configuration as follows.
 
 ## Gradle Configuration
 ### Inside your root build.gradle
