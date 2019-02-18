@@ -1,0 +1,77 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+
+    ext {
+        localProp = new Properties()
+        if(rootProject.file("local.properties").exists())
+            localProp.load(new FileInputStream(rootProject.file("local.properties")))
+        groupName = "com.hernandazevedo"
+        pkgVersion = System.env.BITRISE_GIT_TAG != null ? System.env.BITRISE_GIT_TAG.replace("v", "") : "1.0.0"
+        packageCloudToken = System.env.PACKAGECLOUD_TOKEN != null ? System.env.PACKAGECLOUD_TOKEN : localProp["packageCloudToken"]
+    }
+    
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        configurations {
+            deployerJars
+        }
+
+        google()
+        jcenter()
+
+        maven {
+            url "https://packagecloud.io/hernandazevedo/androidmp3recorder/maven2"
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+subprojects{
+    afterEvaluate {
+        dependencies {
+            deployerJars "io.packagecloud.maven.wagon:maven-packagecloud-wagon:0.0.6"
+        }
+    }
+}
+
+ext.uploadArtifacts = { artifactId, repo, config ->
+    println("Artifact " + artifactId)
+    println("Package Version " + pkgVersion)
+    repo.mavenDeployer {
+        configuration = config.deployerJars
+        repository(url: "packagecloud+https://packagecloud.io/hernandazevedo/androidmp3recorder") {
+            authentication(password: packageCloudToken)
+        }
+        pom.version = pkgVersion
+        pom.artifactId = artifactId
+        pom.groupId = groupName
+        pom.whenConfigured { pom ->
+            println("Current Dependencies ${pom.dependencies}")
+            pom.dependencies.each { dep ->
+                println("Processing ${dep}")
+                if (dep.getVersion() == "unspecified" && dep.getGroupId() == rootProject.name) {
+                    println("Updating Dependencies")
+                    dep.setGroupId(groupName)
+                    dep.setVersion(pkgVersion)
+                    println("Updated ${dep}")
+                }
+            }
+        }
+    }
+}

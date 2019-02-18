@@ -1,0 +1,1 @@
+include ':app', ':androidmp3recorderlib'
