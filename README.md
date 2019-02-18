@@ -27,3 +27,6 @@ To add this library in your android projects you just need to specify the reposi
 ```
 implementation 'com.hernandazevedo:androidmp3recorderlib:1.0.0'
 ```
+
+License
+This project is licensed under the Apache License 2.0 - see the LICENSE file for details
