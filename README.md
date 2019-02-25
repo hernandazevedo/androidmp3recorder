@@ -1,5 +1,7 @@
 [![Build Status](https://app.bitrise.io/app/c0d86791484e4813/status.svg?token=_ar7s0p-wdj7duBixe3OxQ&branch=master)](https://app.bitrise.io/app/c0d86791484e4813)
 
+
+
 # androidmp3recorder
 This project is an Android Library that acts as a Wrapper over Lame mp3 encoder for audio recording.
 
